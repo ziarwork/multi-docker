@@ -1,0 +1,23 @@
+language: generic
+
+sudo: required
+services:
+    - docker
+    
+before_install:
+    - docker build -t ziarwork/react-test -f ./client/Docekrfile.dev ./client
+
+script:
+    - docker run -e CI=true USERNAME/react-test npm test
+
+after_success:
+    - docker build -t ziarwork/multi-client ./client
+    - docker build -t ziarwork/multi-nginx ./nginx
+    - docker build -t ziarwork/multi-server ./server
+    - docker build -t ziarwork/multi-worker ./worker
+    - docker "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push ziarwork/multi-client
+    - docker push ziarwork/multi-nginx
+    - docker push ziarwork/multi-server
+    - docker push ziarwork/multi-worker
+
