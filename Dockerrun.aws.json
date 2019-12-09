@@ -1,0 +1,35 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions" : [
+        {
+            "name": "client",
+            "image": "ziarworker/multi-client",
+            "hostname": "client",
+            "essentail": false
+        },
+        {
+            "name": "server",
+            "image": "ziarworker/multi-server",
+            "hostname": "api",
+            "essentail": false
+        },
+        {
+            "name": "worker",
+            "image": "ziarworker/multi-worker",
+            "hostname": "worker",
+            "essentail": false
+        },
+        {
+            "name": "nginx",
+            "image": "ziarworker/multi-nginx",
+            "hostname": "nginx",
+            "essentail": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ]
+        }
+    ]
+}
